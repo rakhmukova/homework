@@ -1,0 +1,514 @@
+Max value of element: 100
+
+Threads: 8
+
+Size: 1
+
+P: 112	S: 0	
+
+P: 160	S: 0	
+
+P: 99	S: 0	
+
+P: 107	S: 0	
+
+P: 94	S: 0	
+
+P: 107	S: 0	
+
+P: 95	S: 0	
+
+P: 189	S: 0	
+
+P: 67	S: 0	
+
+P: 120	S: 0	
+
+P: 83	S: 0	
+
+P: 152	S: 0	
+
+P: 142	S: 0	
+
+P: 98	S: 0	
+
+P: 60	S: 0	
+
+P: 144	S: 0	
+
+P: 107	S: 0	
+
+P: 86	S: 0	
+
+P: 149	S: 0	
+
+P: 48	S: 0	
+
+
+-------------------
+
+Size: 2
+
+P: 69	S: 0	
+
+P: 119	S: 0	
+
+P: 102	S: 0	
+
+P: 108	S: 0	
+
+P: 80	S: 0	
+
+P: 76	S: 0	
+
+P: 127	S: 0	
+
+P: 146	S: 0	
+
+P: 106	S: 0	
+
+P: 52	S: 0	
+
+P: 82	S: 0	
+
+P: 91	S: 0	
+
+P: 104	S: 0	
+
+P: 74	S: 0	
+
+P: 78	S: 0	
+
+P: 111	S: 0	
+
+P: 107	S: 0	
+
+P: 52	S: 0	
+
+P: 105	S: 0	
+
+P: 74	S: 0	
+
+
+-------------------
+
+Size: 4
+
+P: 80	S: 0	
+
+P: 107	S: 0	
+
+P: 107	S: 0	
+
+P: 50	S: 0	
+
+P: 102	S: 0	
+
+P: 121	S: 0	
+
+P: 50	S: 0	
+
+P: 84	S: 0	
+
+P: 48	S: 0	
+
+P: 75	S: 0	
+
+P: 97	S: 0	
+
+P: 142	S: 0	
+
+P: 55	S: 0	
+
+P: 54	S: 0	
+
+P: 151	S: 0	
+
+P: 83	S: 0	
+
+P: 75	S: 0	
+
+P: 49	S: 0	
+
+P: 87	S: 0	
+
+P: 119	S: 0	
+
+
+-------------------
+
+Size: 8
+
+P: 57	S: 0	
+
+P: 112	S: 0	
+
+P: 125	S: 0	
+
+P: 78	S: 0	
+
+P: 44	S: 0	
+
+P: 143	S: 0	
+
+P: 109	S: 0	
+
+P: 105	S: 0	
+
+P: 127	S: 0	
+
+P: 81	S: 0	
+
+P: 55	S: 0	
+
+P: 86	S: 0	
+
+P: 87	S: 0	
+
+P: 137	S: 0	
+
+P: 121	S: 0	
+
+P: 102	S: 0	
+
+P: 81	S: 0	
+
+P: 68	S: 0	
+
+P: 49	S: 0	
+
+P: 54	S: 0	
+
+
+-------------------
+
+Size: 16
+
+P: 82	S: 0	
+
+P: 78	S: 0	
+
+P: 127	S: 0	
+
+P: 88	S: 0	
+
+P: 73	S: 0	
+
+P: 98	S: 0	
+
+P: 79	S: 0	
+
+P: 117	S: 0	
+
+P: 78	S: 0	
+
+P: 139	S: 0	
+
+P: 79	S: 0	
+
+P: 70	S: 0	
+
+P: 110	S: 0	
+
+P: 71	S: 0	
+
+P: 141	S: 0	
+
+P: 137	S: 0	
+
+P: 104	S: 0	
+
+P: 130	S: 0	
+
+P: 100	S: 0	
+
+P: 76	S: 0	
+
+
+-------------------
+
+Size: 32
+
+P: 93	S: 0	
+
+P: 127	S: 0	
+
+P: 136	S: 0	
+
+P: 89	S: 0	
+
+P: 114	S: 0	
+
+P: 102	S: 0	
+
+P: 63	S: 0	
+
+P: 75	S: 0	
+
+P: 52	S: 0	
+
+P: 55	S: 0	
+
+P: 74	S: 0	
+
+P: 69	S: 0	
+
+P: 53	S: 0	
+
+P: 104	S: 0	
+
+P: 83	S: 0	
+
+P: 97	S: 0	
+
+P: 129	S: 0	
+
+P: 67	S: 0	
+
+P: 83	S: 0	
+
+P: 99	S: 0	
+
+
+-------------------
+
+Size: 64
+
+P: 49	S: 3	
+
+P: 46	S: 2	
+
+P: 69	S: 2	
+
+P: 75	S: 3	
+
+P: 43	S: 2	
+
+P: 69	S: 2	
+
+P: 80	S: 2	
+
+P: 83	S: 3	
+
+P: 55	S: 2	
+
+P: 59	S: 2	
+
+P: 51	S: 2	
+
+P: 53	S: 2	
+
+P: 101	S: 2	
+
+P: 79	S: 2	
+
+P: 95	S: 2	
+
+P: 69	S: 2	
+
+P: 57	S: 2	
+
+P: 112	S: 3	
+
+P: 133	S: 4	
+
+P: 67	S: 2	
+
+
+-------------------
+
+Size: 128
+
+P: 82	S: 16	
+
+P: 115	S: 17	
+
+P: 114	S: 16	
+
+P: 111	S: 18	
+
+P: 123	S: 17	
+
+P: 84	S: 17	
+
+P: 98	S: 18	
+
+P: 89	S: 18	
+
+P: 86	S: 17	
+
+P: 58	S: 16	
+
+P: 114	S: 16	
+
+P: 88	S: 17	
+
+P: 126	S: 15	
+
+P: 89	S: 17	
+
+P: 96	S: 17	
+
+P: 80	S: 17	
+
+P: 78	S: 21	
+
+P: 64	S: 18	
+
+P: 61	S: 17	
+
+P: 56	S: 18	
+
+
+-------------------
+
+Size: 256
+
+P: 130	S: 136	
+
+P: 129	S: 155	
+
+P: 126	S: 141	
+
+P: 99	S: 162	
+
+P: 157	S: 132	
+
+P: 103	S: 159	
+
+P: 130	S: 130	
+
+P: 135	S: 151	
+
+P: 99	S: 137	
+
+P: 102	S: 146	
+
+P: 140	S: 133	
+
+P: 108	S: 148	
+
+P: 157	S: 141	
+
+P: 127	S: 145	
+
+P: 104	S: 135	
+
+P: 132	S: 149	
+
+P: 114	S: 140	
+
+P: 122	S: 142	
+
+P: 143	S: 132	
+
+P: 155	S: 134	
+
+
+-------------------
+
+Size: 512
+
+P: 488	S: 1333	
+
+P: 526	S: 1288	
+
+P: 502	S: 1279	
+
+P: 579	S: 1316	
+
+P: 510	S: 1363	
+
+P: 522	S: 1379	
+
+P: 489	S: 1347	
+
+P: 491	S: 1342	
+
+P: 494	S: 1308	
+
+P: 528	S: 1314	
+
+P: 492	S: 1341	
+
+P: 532	S: 1364	
+
+P: 471	S: 1344	
+
+P: 584	S: 1296	
+
+P: 524	S: 1347	
+
+P: 572	S: 1321	
+
+P: 537	S: 1336	
+
+P: 522	S: 1344	
+
+P: 524	S: 1360	
+
+P: 489	S: 1313	
+
+
+-------------------
+
+Size: 1
+
+P: Math expectation: 110, Dispersion: 1438
+
+S: Math expectation: 0, Dispersion: 0
+
+Size: 2
+
+P: Math expectation: 93, Dispersion: 596
+
+S: Math expectation: 0, Dispersion: 0
+
+Size: 4
+
+P: Math expectation: 86, Dispersion: 1068
+
+S: Math expectation: 0, Dispersion: 0
+
+Size: 8
+
+P: Math expectation: 91, Dispersion: 908
+
+S: Math expectation: 0, Dispersion: 0
+
+Size: 16
+
+P: Math expectation: 98, Dispersion: 764
+
+S: Math expectation: 0, Dispersion: 0
+
+Size: 32
+
+P: Math expectation: 88, Dispersion: 650
+
+S: Math expectation: 0, Dispersion: 0
+
+Size: 64
+
+P: Math expectation: 72, Dispersion: 561
+
+S: Math expectation: 2, Dispersion: 1
+
+Size: 128
+
+P: Math expectation: 90, Dispersion: 546
+
+S: Math expectation: 17, Dispersion: 6
+
+Size: 256
+
+P: Math expectation: 125, Dispersion: 497
+
+S: Math expectation: 142, Dispersion: 196
+
+Size: 512
+
+P: Math expectation: 518, Dispersion: 1774
+
+S: Math expectation: 1331, Dispersion: 2676
+
