@@ -101,7 +101,7 @@ namespace ParallelMatrixMultiplication
                 {
                     for (var col = 0; col < matrix.GetLength(1); ++col)
                     {
-                        sw.Write("{0}\t", matrix[row, col]);
+                        sw.Write($"{matrix[row, col]}\t");
                     }
                     sw.Write("\n");
                 }

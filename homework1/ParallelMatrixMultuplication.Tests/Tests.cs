@@ -6,13 +6,6 @@ namespace ParallelMatrixMultuplication.Tests
 {
     public class ParallelMatrixMultiplicationTests
     {
-        [SetUp]
-        public void Setup()
-        {
-            var strategy = new ParallelMultiplicationStrategy(12);
-            strategy.ThreadsNum = 5;
-        }
-
         [Test]
         public void TestNullMatrixIsPassed()
         {
@@ -68,13 +61,7 @@ namespace ParallelMatrixMultuplication.Tests
     }
 
     public class SequentialMatrixMultiplicationTests
-    {
-        [SetUp]
-        public void Setup()
-        {
-            var strategy = new SequentialMultiplicationStrategy();
-        }
-
+    {       
         [Test]
         public void TestMultiplyMatrices()
         {
@@ -101,13 +88,6 @@ namespace ParallelMatrixMultuplication.Tests
 
     public class FileMatrixMultiplicatorTests
     {
-        [SetUp]
-        public void Setup()
-        {
-            var multiplicator = new FileMatrixMultiplicator(new SequentialMultiplicationStrategy());
-            multiplicator.Strategy = new ParallelMultiplicationStrategy(60);
-        }
-
         [Test]
         public void TestPrintMatrixToFileAndThenConvertBack()
         {
@@ -118,6 +98,16 @@ namespace ParallelMatrixMultuplication.Tests
             int[,] converted;
             multiplicator.TryConvertToMatrix(path, out converted);
             CollectionAssert.AreEqual(matrix, converted);
+        }
+
+        [Test]
+        public void TestTryConvertFileOfInvalidFormat()
+        {
+            int[,] matrix;
+            var path = "..\\..\\..\\wrongFormat.txt";
+            var multiplicator = new FileMatrixMultiplicator(new SequentialMultiplicationStrategy());
+            Assert.IsFalse(multiplicator.TryConvertToMatrix(path, out matrix));
+            Assert.IsNull(matrix);
         }
 
         [Test]
