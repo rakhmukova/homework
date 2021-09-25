@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace Lazy
 {
+    /// <summary>
+    /// A class for lazy initialization in a multi-threaded mode
+    /// </summary>
     public class MultipleThreadsLazy<T> : ILazy<T>
     {
         private Func<T> supplier;
@@ -10,6 +13,11 @@ namespace Lazy
         private bool isValueCreated;
         private Object lockObject = new();
 
+        /// <summary>
+        /// Initializes an instance of MultipleThreadsLazy<T> class
+        /// </summary>
+        /// <param name="supplier">An initialization function that is used 
+        /// when a lazy initialization occurs</param>
         internal MultipleThreadsLazy(Func<T> supplier)
         {
             if (supplier == null)
@@ -19,9 +27,12 @@ namespace Lazy
             this.supplier = supplier;
         }
 
+        /// <summary>
+        /// Returns the lazily initialized value of the current MultipleThreadsLazy<T> instance
+        /// </summary>
         public T Get()
         {
-            if (!Volatile.Read(ref isValueCreated))
+            if (!isValueCreated)
             {
                 lock (lockObject)
                 {
@@ -31,7 +42,6 @@ namespace Lazy
                         isValueCreated = true;
                         Volatile.Write(ref isValueCreated, true);
                     }
-
                 }
             }
             return value;
