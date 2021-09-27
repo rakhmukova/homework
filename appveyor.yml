@@ -1,5 +1,12 @@
 image: Visual Studio 2019
 
+branches:
+  only:
+    - Lazy_2
+    
+before_build:
+  - nuget restore Homework2/Lazy/Lazy.sln
+
 build_script:
   - For /R %%I in (*.sln) do dotnet test %%I
 
