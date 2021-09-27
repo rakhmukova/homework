@@ -1,24 +1,12 @@
-﻿using System;
-
-namespace ParallelMatrixMultiplication
+﻿namespace ParallelMatrixMultiplication
 {
     public class SequentialMultiplicationStrategy : MultiplicationStrategy
     {      
         /// <summary>
         /// multiplies two matrices in a sequential way
         /// </summary>
-        public override int[,] Multiply(int[,] leftMatrix, int[,] rightMatrix)
+        protected override int[,] Multiply(int[,] leftMatrix, int[,] rightMatrix)
         {
-            if (leftMatrix == null || rightMatrix == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (!AreCompatible(leftMatrix, rightMatrix))
-            {
-                throw new ArgumentException("The matrices are incompatible.");
-            }
-
             var rowsNum = leftMatrix.GetLength(0);
             var colsNum = rightMatrix.GetLength(1);
             var varNum = leftMatrix.GetLength(1);

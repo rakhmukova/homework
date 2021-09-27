@@ -25,6 +25,7 @@ namespace ParallelMatrixMultiplication
             }
             this.Strategy = strategy;
         }
+
         /// <summary>
         /// returns true if the data represented in a file is of valid format 
         /// and it is possible to convert it to matrix, otherwise - false
@@ -36,52 +37,49 @@ namespace ParallelMatrixMultiplication
                 throw new ArgumentException("The file doesn't exist.");
             }
 
-            using (StreamReader toCountRowsAndCols = new(filePath), toFillMatrix = new(filePath))
+            using StreamReader toCountRowsAndCols = new(filePath), toFillMatrix = new(filePath);
+
+            string[] tokens;
+            var rowCounter = 0;
+            var colCounter = 0;
+            var line = toCountRowsAndCols.ReadLine();
+            if (line == null)
             {
-                string line;
-                string[] tokens;
-                var rowCounter = 0;
-                var colCounter = 0;
-                line = toCountRowsAndCols.ReadLine();
-                if (line == null)
+                matrix = null;
+                return false;
+            }
+            else
+            {
+                ++rowCounter;
+                tokens = line.Split('\t', '\n');
+                colCounter = tokens.Length - 1;
+            }
+
+            while ((line = toCountRowsAndCols.ReadLine()) != null)
+            {
+                ++rowCounter;
+            }
+
+            matrix = new int[rowCounter, colCounter];
+
+            for (var row = 0; row < rowCounter; ++row)
+            {
+                line = toFillMatrix.ReadLine();
+                tokens = line.Split('\t', '\n');
+                if (tokens.Length - 1 != colCounter)
                 {
                     matrix = null;
                     return false;
                 }
-                else
+                for (var col = 0; col < colCounter; ++col)
                 {
-                    ++rowCounter;
-                    tokens = line.Split('\t', '\n');
-                    colCounter = tokens.Length - 1;
-                }
-
-                while ((line = toCountRowsAndCols.ReadLine()) != null)
-                {
-                    ++rowCounter;
-                }
-                                
-                matrix = new int[rowCounter, colCounter];
-
-                for (var row = 0; row < rowCounter; ++row)
-                {
-                    line = toFillMatrix.ReadLine();
-                    tokens = line.Split('\t', '\n');
-                    if (tokens.Length - 1 != colCounter)
+                    if (!int.TryParse(tokens[col], out matrix[row, col]))
                     {
                         matrix = null;
                         return false;
                     }
-                    for (var col = 0; col < colCounter; ++col)
-                    {
-                        if (!int.TryParse(tokens[col], out matrix[row, col]))
-                        {
-                            matrix = null;
-                            return false;
-                        }
-                    }
                 }
-            }               
-            
+            }
             return true;
         }        
 
@@ -95,16 +93,15 @@ namespace ParallelMatrixMultiplication
                 throw new ArgumentNullException();
             }
 
-            using (var sw = File.CreateText(filePath))
+            using var sw = File.CreateText(filePath);
+
+            for (var row = 0; row < matrix.GetLength(0); ++row)
             {
-                for (var row = 0; row < matrix.GetLength(0); ++row)
+                for (var col = 0; col < matrix.GetLength(1); ++col)
                 {
-                    for (var col = 0; col < matrix.GetLength(1); ++col)
-                    {
-                        sw.Write($"{matrix[row, col]}\t");
-                    }
-                    sw.Write("\n");
+                    sw.Write($"{matrix[row, col]}\t");
                 }
+                sw.Write("\n");
             }
         }
 
@@ -113,20 +110,12 @@ namespace ParallelMatrixMultiplication
         /// </summary>
         public void Multiply(string leftMatrixPath, string rightMatrixPath, string resultMatrixPath)
         {
-            try
+            if (TryConvertToMatrix(leftMatrixPath, out int[,] left)
+                    && TryConvertToMatrix(rightMatrixPath, out int[,] right))
             {
-                int[,] left, right, result;
-                if (TryConvertToMatrix(leftMatrixPath, out left) 
-                    && TryConvertToMatrix(rightMatrixPath, out right))
-                {                    
-                    result = Strategy.Multiply(left, right);
-                    PrintMatrixToFile(result, resultMatrixPath);
-                }                
+                var result = Strategy.MultiplyIfPossible(left, right);
+                PrintMatrixToFile(result, resultMatrixPath);
             }
-            catch(Exception)
-            {
-                throw;
-            }            
         }       
     }
 }

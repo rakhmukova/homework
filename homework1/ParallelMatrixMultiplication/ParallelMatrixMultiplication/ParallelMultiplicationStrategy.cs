@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 
 namespace ParallelMatrixMultiplication
 {
@@ -22,18 +21,8 @@ namespace ParallelMatrixMultiplication
         /// <summary>
         /// multiplies two matrices in a parallel way
         /// </summary>
-        public override int[,] Multiply(int[,] leftMatrix, int[,] rightMatrix)
+        protected override int[,] Multiply(int[,] leftMatrix, int[,] rightMatrix)
         {
-            if (leftMatrix == null || rightMatrix == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (!AreCompatible(leftMatrix, rightMatrix))
-            {
-                throw new ArgumentException("The matrices are incompatible.");
-            }
-
             var rowsNum = leftMatrix.GetLength(0);
             var colsNum = rightMatrix.GetLength(1);
             var varNum = leftMatrix.GetLength(1);
@@ -49,7 +38,7 @@ namespace ParallelMatrixMultiplication
                 threads[i] = new Thread(() =>
                 {                    
                     for (var row = localI * rowsChunk;
-                    row < (localI + 1) * rowsChunk && row < rowsNum; ++row)
+                        row < (localI + 1) * rowsChunk && row < rowsNum; ++row)
                     {
                         for (var col = 0; col < colsNum ; ++col)
                         {

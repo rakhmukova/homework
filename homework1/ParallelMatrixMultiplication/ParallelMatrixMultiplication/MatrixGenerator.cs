@@ -21,7 +21,7 @@ namespace ParallelMatrixMultiplication
             {
                 for (var col = 0; col < colNum; ++col)
                 {
-                    matrix[row, col] = random.Next() % maxValue;
+                    matrix[row, col] = random.Next(maxValue);
                 }
             }
             return matrix;
