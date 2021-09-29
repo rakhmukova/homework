@@ -6,6 +6,7 @@ namespace ParallelMatrixMultuplication.Tests
 {
     public class FileMatrixMultiplicatorTests
     {
+        static private int threadsNum = Environment.ProcessorCount;
         static private string directory = "..\\..\\..\\files";
 
         [Test]
@@ -31,7 +32,7 @@ namespace ParallelMatrixMultuplication.Tests
         [Test]
         public void TestNullMatrixIsPassed()
         {
-            var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy());
+            var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy(threadsNum));
             Assert.Throws<ArgumentNullException>(() 
                 => multiplicator.PrintMatrixToFile(null, ""));
         }
@@ -39,7 +40,7 @@ namespace ParallelMatrixMultuplication.Tests
         [Test]
         public void TestNullFilePathIsPassed()
         {
-            var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy());
+            var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy(threadsNum));
             Assert.Throws<ArgumentException>(()
                 => multiplicator.Multiply("", null, ""));
         }
@@ -54,7 +55,7 @@ namespace ParallelMatrixMultuplication.Tests
             var rightPath = directory + "\\right.txt";
             var result = directory + "\\result.txt";
 
-            var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy());
+            var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy(threadsNum));
             multiplicator.PrintMatrixToFile(left, leftPath);
             multiplicator.PrintMatrixToFile(right, rightPath);
 
