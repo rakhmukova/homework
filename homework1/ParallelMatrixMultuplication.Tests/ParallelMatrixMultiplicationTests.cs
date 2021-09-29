@@ -6,6 +6,8 @@ namespace ParallelMatrixMultuplication.Tests
 {
     public class ParallelMatrixMultiplicationTests
     {
+        static private int threadsNum = Environment.ProcessorCount;
+
         [Test]
         public void TestNullMatrixIsPassed()
         {
@@ -14,7 +16,7 @@ namespace ParallelMatrixMultuplication.Tests
                 {1}
             };
             Assert.Throws<ArgumentNullException>(()
-                => new ParallelMultiplicationStrategy().MultiplyIfPossible(leftMatrix, null));
+                => new ParallelMultiplicationStrategy(threadsNum).MultiplyIfPossible(leftMatrix, null));
         }
 
         [Test]
@@ -31,7 +33,7 @@ namespace ParallelMatrixMultuplication.Tests
                 {2},
                 {3}
             };
-            var result = new ParallelMultiplicationStrategy().MultiplyIfPossible(leftMatrix, rightMatrix);
+            var result = new ParallelMultiplicationStrategy(threadsNum).MultiplyIfPossible(leftMatrix, rightMatrix);
             Assert.AreEqual(1, result.GetLength(1));
             Assert.AreEqual(2, result.GetLength(0));
             CollectionAssert.AreEqual(new int[,]
@@ -54,7 +56,7 @@ namespace ParallelMatrixMultuplication.Tests
                 {1},
                 {2}
             };
-            var strategy = new ParallelMultiplicationStrategy();
+            var strategy = new ParallelMultiplicationStrategy(threadsNum);
             Assert.Throws<ArgumentException>(() => strategy.MultiplyIfPossible(leftMatrix, rightMatrix));
         }
     }

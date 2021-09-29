@@ -13,7 +13,7 @@ namespace ParallelMatrixMultiplication
         /// initializes an instance of ParallelMultiplicationStrategy class
         /// </summary>
         /// <param name="threadsNum">a preferable number of threads to engage</param>
-        public ParallelMultiplicationStrategy(int threadsNum = 8)
+        public ParallelMultiplicationStrategy(int threadsNum)
         {
             this.ThreadsNum = threadsNum;
         }
