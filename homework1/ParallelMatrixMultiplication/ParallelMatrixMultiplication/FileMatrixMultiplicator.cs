@@ -46,12 +46,14 @@ namespace ParallelMatrixMultiplication
                 throw new FormatException("The file is empty.");
             }
 
-            var delimChars = new char[] { '\n', '\t' };
+            var delimChars = new char[] {'\n', '\t'};
             var tokens = line.Split(delimChars, StringSplitOptions.RemoveEmptyEntries);
             var colCounter = tokens.Length;
             var rowCounter = 1;
-            while ((line = toCountRowsAndCols.ReadLine()) != null)
+            line = toCountRowsAndCols.ReadLine();
+            while (line != null)
             {
+                line = toCountRowsAndCols.ReadLine();
                 ++rowCounter;
             }
 
