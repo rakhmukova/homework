@@ -6,7 +6,7 @@ namespace ParallelMatrixMultuplication.Tests
 {
     public class ParallelMatrixMultiplicationTests
     {
-        static private int threadsNum = Environment.ProcessorCount;
+        static private readonly int threadsNum = Environment.ProcessorCount;
 
         [Test]
         public void TestNullMatrixIsPassed()

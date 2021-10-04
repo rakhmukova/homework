@@ -1,22 +1,22 @@
 using NUnit.Framework;
 using ParallelMatrixMultiplication;
 using System;
+using System.IO;
 
 namespace ParallelMatrixMultuplication.Tests
 {
     public class FileMatrixMultiplicatorTests
     {
-        static private int threadsNum = Environment.ProcessorCount;
-        static private string directory = "..\\..\\..\\files";
+        static private readonly int threadsNum = Environment.ProcessorCount;
+        private const string directory = "..\\..\\..\\files";
 
         [Test]
         public void TestPrintMatrixToFileAndThenConvertBack()
         {
-            var matrix = MatrixGenerator.GenerateMatrix(12, 3);
-            var path = directory + "\\example.txt"; 
-            var multiplicator = new FileMatrixMultiplicator(new SequentialMultiplicationStrategy());
-            multiplicator.PrintMatrixToFile(matrix, path);
-            multiplicator.TryConvertToMatrix(path, out int[,] converted);
+            var matrix = MatrixGenerator.GenerateMatrix(12, 3);            
+            var path = directory + "\\example.txt";
+            FileMatrixMultiplicator.PrintMatrixToFile(matrix, path);
+            var converted = FileMatrixMultiplicator.ConvertToMatrix(path);
             CollectionAssert.AreEqual(matrix, converted);
         }
 
@@ -24,24 +24,22 @@ namespace ParallelMatrixMultuplication.Tests
         public void TestTryConvertFileOfInvalidFormat()
         {
             var path = directory +"\\wrongFormat.txt";
-            var multiplicator = new FileMatrixMultiplicator(new SequentialMultiplicationStrategy());
-            Assert.IsFalse(multiplicator.TryConvertToMatrix(path, out int[,] matrix));
-            Assert.IsNull(matrix);
+            Assert.Throws<FormatException>(() 
+                => FileMatrixMultiplicator.ConvertToMatrix(path));
         }
 
         [Test]
         public void TestNullMatrixIsPassed()
         {
-            var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy(threadsNum));
             Assert.Throws<ArgumentNullException>(() 
-                => multiplicator.PrintMatrixToFile(null, ""));
+                => FileMatrixMultiplicator.PrintMatrixToFile(null, ""));
         }
 
         [Test]
         public void TestNullFilePathIsPassed()
         {
             var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy(threadsNum));
-            Assert.Throws<ArgumentException>(()
+            Assert.Throws<FileNotFoundException>(()
                 => multiplicator.Multiply("", null, ""));
         }
 
@@ -53,18 +51,18 @@ namespace ParallelMatrixMultuplication.Tests
             
             var leftPath = directory + "\\left.txt";
             var rightPath = directory + "\\right.txt";
-            var result = directory + "\\result.txt";
+            var resultPath = directory + "\\result.txt";
+                        
+            FileMatrixMultiplicator.PrintMatrixToFile(left, leftPath);
+            FileMatrixMultiplicator.PrintMatrixToFile(right, rightPath);
 
             var multiplicator = new FileMatrixMultiplicator(new ParallelMultiplicationStrategy(threadsNum));
-            multiplicator.PrintMatrixToFile(left, leftPath);
-            multiplicator.PrintMatrixToFile(right, rightPath);
-
-            multiplicator.Multiply(leftPath, rightPath, result);
-            multiplicator.TryConvertToMatrix(result, out int[,] resultP);
+            multiplicator.Multiply(leftPath, rightPath, resultPath);
+            var resultP = FileMatrixMultiplicator.ConvertToMatrix(resultPath);
 
             multiplicator.Strategy = new SequentialMultiplicationStrategy();
-            multiplicator.Multiply(leftPath, rightPath, result);
-            multiplicator.TryConvertToMatrix(result, out int[,] resultS);
+            multiplicator.Multiply(leftPath, rightPath, resultPath);
+            var resultS = FileMatrixMultiplicator.ConvertToMatrix(resultPath);
 
             CollectionAssert.AreEqual(resultP, resultS);
         }

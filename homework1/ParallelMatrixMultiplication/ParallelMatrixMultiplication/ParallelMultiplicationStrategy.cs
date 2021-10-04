@@ -1,13 +1,29 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace ParallelMatrixMultiplication
 {
+    /// <summary>
+    /// A class that represents a strategy for parallel matrix multiplication
+    /// </summary>
     public class ParallelMultiplicationStrategy : MultiplicationStrategy
     {
+        private int threadsNum;
         /// <summary>
         /// a number of threads engaged while multiplying matrices
         /// </summary>
-        public int ThreadsNum { get; set; }
+        public int ThreadsNum 
+        {
+            get => threadsNum;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("The number of threads should be a positive integer.");
+                }
+                threadsNum = value;
+            } 
+        }
 
         /// <summary>
         /// initializes an instance of ParallelMultiplicationStrategy class
@@ -48,8 +64,7 @@ namespace ParallelMatrixMultiplication
                             }
                         }
                     }
-                });
-                
+                });                
             }
 
             foreach (var thread in threads)

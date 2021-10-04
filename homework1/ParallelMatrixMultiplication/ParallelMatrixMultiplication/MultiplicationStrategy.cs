@@ -10,7 +10,7 @@ namespace ParallelMatrixMultiplication
         /// <summary>
         /// check whether two matrices are compatible
         /// </summary>
-        public bool AreCompatible(int[,] leftMatrix, int[,] rightMatrix) 
+        public static bool AreCompatible(int[,] leftMatrix, int[,] rightMatrix) 
             => leftMatrix.GetLength(1) == rightMatrix.GetLength(0);
 
         /// <summary>

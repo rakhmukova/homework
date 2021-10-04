@@ -4,66 +4,111 @@ Threads: 8
 
 Size: 1
 
-P: Math expectation: 124 ms, Standard deviation: 30 ms
+Math expectation:
+parallel:  113 ms
+sequential:  0 ms
 
-S: Math expectation: 0 ms, Standard deviation: 0 ms
+Standard deviation:
+parallel:  16,92 ms
+sequential:  0 ms
 
 Size: 2
 
-P: Math expectation: 142 ms, Standard deviation: 22 ms
+Math expectation:
+parallel:  101 ms
+sequential:  0 ms
 
-S: Math expectation: 0 ms, Standard deviation: 0 ms
+Standard deviation:
+parallel:  25,75 ms
+sequential:  0 ms
 
 Size: 4
 
-P: Math expectation: 128 ms, Standard deviation: 28 ms
+Math expectation:
+parallel:  88 ms
+sequential:  0 ms
 
-S: Math expectation: 0 ms, Standard deviation: 0 ms
+Standard deviation:
+parallel:  23,57 ms
+sequential:  0 ms
 
 Size: 8
 
-P: Math expectation: 141 ms, Standard deviation: 29 ms
+Math expectation:
+parallel:  102 ms
+sequential:  0 ms
 
-S: Math expectation: 0 ms, Standard deviation: 0 ms
+Standard deviation:
+parallel:  23,89 ms
+sequential:  0 ms
 
 Size: 16
 
-P: Math expectation: 116 ms, Standard deviation: 17 ms
+Math expectation:
+parallel:  87 ms
+sequential:  0 ms
 
-S: Math expectation: 0 ms, Standard deviation: 0 ms
+Standard deviation:
+parallel:  24,2 ms
+sequential:  0 ms
 
 Size: 32
 
-P: Math expectation: 122 ms, Standard deviation: 30 ms
+Math expectation:
+parallel:  73 ms
+sequential:  0 ms
 
-S: Math expectation: 0 ms, Standard deviation: 0 ms
+Standard deviation:
+parallel:  26,47 ms
+sequential:  0 ms
 
 Size: 64
 
-P: Math expectation: 105 ms, Standard deviation: 23 ms
+Math expectation:
+parallel:  68 ms
+sequential:  2 ms
 
-S: Math expectation: 5 ms, Standard deviation: 3 ms
+Standard deviation:
+parallel:  22,45 ms
+sequential:  0,45 ms
 
 Size: 128
 
-P: Math expectation: 127 ms, Standard deviation: 30 ms
+Math expectation:
+parallel:  88 ms
+sequential:  17 ms
 
-S: Math expectation: 39 ms, Standard deviation: 7 ms
+Standard deviation:
+parallel:  24 ms
+sequential:  1,97 ms
 
 Size: 256
 
-P: Math expectation: 206 ms, Standard deviation: 31 ms
+Math expectation:
+parallel:  137 ms
+sequential:  138 ms
 
-S: Math expectation: 235 ms, Standard deviation: 28 ms
+Standard deviation:
+parallel:  23,52 ms
+sequential:  6,17 ms
 
 Size: 512
 
-P: Math expectation: 713 ms, Standard deviation: 60 ms
+Math expectation:
+parallel:  529 ms
+sequential:  1326 ms
 
-S: Math expectation: 2494 ms, Standard deviation: 78 ms
+Standard deviation:
+parallel:  24,12 ms
+sequential:  16,02 ms
 
 Size: 1024
 
-P: Math expectation: 6456 ms, Standard deviation: 401 ms
+Math expectation:
+parallel:  5121 ms
+sequential:  15243 ms
 
-S: Math expectation: 24511 ms, Standard deviation: 1809 ms
+Standard deviation:
+parallel:  1283,5 ms
+sequential:  4493,31 ms
+

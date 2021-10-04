@@ -1,5 +1,8 @@
 ﻿namespace ParallelMatrixMultiplication
 {
+    /// <summary>
+    /// A class that represents a strategy for sequential matrix multiplication
+    /// </summary>
     public class SequentialMultiplicationStrategy : MultiplicationStrategy
     {      
         /// <summary>
