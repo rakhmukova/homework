@@ -8,15 +8,15 @@ namespace Lazy.Tests
         [Test]
         public void TestInitializeInstancesOfLazyUsingFactory()
         {
-            var singleThreadLazy = LazyFactory<int>.CreateSingleThreadLazy(() => 10);
-            var multipleThreadsLazy = LazyFactory<double>.CreateMultipleThreadsLazy(() => 8.7 + 5.9);
+            var singleThreadLazy = LazyFactory.CreateSingleThreadLazy(() => 10);
+            var multipleThreadsLazy = LazyFactory.CreateMultipleThreadsLazy(() => 8.7 + 5.9);
         }
 
         [Test]
         public void TestPassNullFunctionToFactoryAndCheckForArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(()
-                => LazyFactory<float>.CreateSingleThreadLazy(null));
+                => LazyFactory.CreateSingleThreadLazy<float>(null));
         }
     }       
 }

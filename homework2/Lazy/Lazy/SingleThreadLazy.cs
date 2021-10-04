@@ -18,11 +18,7 @@ namespace Lazy
         /// when a lazy initialization occurs</param>
         internal SingleThreadLazy(Func<T> supplier)
         {
-            if (supplier == null)
-            {
-                throw new ArgumentNullException();
-            }
-            this.supplier = supplier;
+            this.supplier = supplier ?? throw new ArgumentNullException(nameof(supplier));
         }
 
         /// <summary>
@@ -34,6 +30,7 @@ namespace Lazy
             {
                 value = supplier();
                 isValueCreated = true;
+                supplier = null;
             }
             return value;
         }

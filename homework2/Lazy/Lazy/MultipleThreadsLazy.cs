@@ -11,7 +11,7 @@ namespace Lazy
         private Func<T> supplier;
         private T value;
         private bool isValueCreated;
-        private Object lockObject = new();
+        private readonly Object lockObject = new();
 
         /// <summary>
         /// Initializes an instance of MultipleThreadsLazy<T> class
@@ -20,11 +20,7 @@ namespace Lazy
         /// when a lazy initialization occurs</param>
         internal MultipleThreadsLazy(Func<T> supplier)
         {
-            if (supplier == null)
-            {
-                throw new ArgumentNullException();
-            }
-            this.supplier = supplier;
+            this.supplier = supplier ?? throw new ArgumentNullException(nameof(supplier));
         }
 
         /// <summary>
@@ -39,8 +35,8 @@ namespace Lazy
                     if (!Volatile.Read(ref isValueCreated))
                     {
                         value = supplier();
-                        isValueCreated = true;
                         Volatile.Write(ref isValueCreated, true);
+                        supplier = null;
                     }
                 }
             }

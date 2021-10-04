@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 
@@ -8,19 +8,20 @@ namespace Lazy.Tests
 {
     public class MultipleThreadsLazyTests
     {
+        private static readonly int threadsNum = Environment.ProcessorCount;
+
         [Test]
         public void TestIntLazyInitializationOccursOnce()
-        {
-            var threadsNum = Environment.ProcessorCount;
-            var threads = new Thread[threadsNum];
-            var lazyValues = new int[threadsNum];
+        {            
             var called = 0;
-            var lazy = LazyFactory<int>.CreateMultipleThreadsLazy(() =>
+            var lazy = LazyFactory.CreateMultipleThreadsLazy(() =>
             {
-                ++called;
+                Interlocked.Increment(ref called);
                 return called;
             });
 
+            var threads = new Thread[threadsNum];
+            var lazyValues = new int[threadsNum];
             for (var i = 0; i < threadsNum; ++i)
             {
                 var localI = i;
@@ -42,27 +43,19 @@ namespace Lazy.Tests
         }
 
         [Test]
-        public void TestStackLazyInitializationOccursOnce()
+        public void TestConcurrentStackLazyInitializationOccursOnce()
         {
-            var stack = new Stack<int>();
-            var threadsNum = Environment.ProcessorCount;
-            var threads = new Thread[threadsNum];
-            var lazyValues = new Stack<int>[threadsNum];
+            var stack = new ConcurrentStack<int>();            
             var called = 0;
-
-            var lazy = LazyFactory<Stack<int>>.CreateMultipleThreadsLazy(() =>
+            var lazy = LazyFactory.CreateMultipleThreadsLazy(() =>
             {
-                if (called % 2 == 0)
-                {
-                    stack.Push(called);
-                }
-                else
-                {
-                    stack.Pop();
-                }
+                stack.Push(called);
+                Interlocked.Increment(ref called);
                 return stack;
             });
 
+            var threads = new Thread[threadsNum];
+            var lazyValues = new ConcurrentStack<int>[threadsNum];
             for (var i = 0; i < threadsNum; ++i)
             {
                 var localI = i;
@@ -79,9 +72,8 @@ namespace Lazy.Tests
                 thread.Join();
             }
 
-            var expected = new Stack<int>();
-            expected.Push(0);
-            foreach(var value in lazyValues)
+            var expected = lazyValues[0];
+            foreach (var value in lazyValues)
             {
                 CollectionAssert.AreEqual(expected, value);
             }
@@ -89,23 +81,21 @@ namespace Lazy.Tests
 
         [Test]
         public void TestLazyLazyInitializationOccursOnce()
-        {
-            var threadsNum = Environment.ProcessorCount;
-            var threads = new Thread[threadsNum];
-            var lazyValues = new int[threadsNum];
+        {            
             var called = 0;
             var random = new Random();
-
-            var lazy = LazyFactory<ILazy<int>>.CreateMultipleThreadsLazy(() =>
+            var lazy = LazyFactory.CreateMultipleThreadsLazy(() =>
             {
-                ++called;
-                return LazyFactory<int>.CreateMultipleThreadsLazy(() =>
+                Interlocked.Increment(ref called);
+                return LazyFactory.CreateMultipleThreadsLazy(() =>
                 {
-                    ++called;
+                    Interlocked.Increment(ref called);
                     return random.Next();
                 });
             });
 
+            var threads = new Thread[threadsNum];
+            var lazyValues = new int[threadsNum];
             for (var i = 0; i < threadsNum; ++i)
             {
                 var localI = i;
