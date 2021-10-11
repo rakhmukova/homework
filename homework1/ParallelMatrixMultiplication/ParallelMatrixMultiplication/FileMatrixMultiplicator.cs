@@ -16,7 +16,7 @@ namespace ParallelMatrixMultiplication
         public MultiplicationStrategy Strategy
         {
             get => strategy;
-            set => strategy = value?? throw new ArgumentNullException();
+            set => strategy = value ?? throw new ArgumentNullException();
         }
 
         /// <summary>

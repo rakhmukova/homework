@@ -53,8 +53,8 @@ namespace ParallelMatrixMultiplication
         static private (double expectation, double deviation) 
             CalculateExpectationAndDeviation(IEnumerable<long> data)
         {
-            var expectation = data.Sum() / numOfCases;
-            var deviation = Math.Sqrt(data.Select(x => Math.Pow(x - expectation, 2)).Sum() / numOfCases);           
+            var expectation = data.Average();
+            var deviation = Math.Sqrt(data.Select(x => Math.Pow(x - expectation, 2)).Average());           
             return (expectation, deviation);
         }
 
@@ -70,7 +70,6 @@ namespace ParallelMatrixMultiplication
                 var (parallel, sequential) = MeasureTime(degTwo);
                 parStatistics.Add(CalculateExpectationAndDeviation(parallel));
                 seqStatistics.Add(CalculateExpectationAndDeviation(sequential));
-                Console.WriteLine("\n-------------------\n");
             }
 
             var path = "..\\..\\..\\statistics.txt";

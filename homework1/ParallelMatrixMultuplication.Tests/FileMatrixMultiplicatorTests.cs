@@ -23,7 +23,7 @@ namespace ParallelMatrixMultuplication.Tests
         [Test]
         public void TestTryConvertFileOfInvalidFormat()
         {
-            var path = directory +"\\wrongFormat.txt";
+            var path = directory + "\\wrongFormat.txt";
             Assert.Throws<FormatException>(() 
                 => FileMatrixMultiplicator.ConvertToMatrix(path));
         }

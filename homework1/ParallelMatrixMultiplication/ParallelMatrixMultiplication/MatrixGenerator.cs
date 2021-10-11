@@ -12,10 +12,13 @@ namespace ParallelMatrixMultiplication
         /// </summary>
         /// <param name="rowNum">a preferable number of rows</param>
         /// <param name="colNum">a preferable number of columns</param>
-        /// /// <param name="maxValue">maximum value of an element</param>
+        /// <param name="maxValue">maximum value of an element</param>
         public static int[,] GenerateMatrix(int rowNum, int colNum, int maxValue = 100)
         {
-            //negative rowNum, colNum
+            if (rowNum <= 0 || colNum <= 0)
+            {
+                throw new ArgumentException("Size parameters should be positive.");
+            }
             var matrix = new int[rowNum, colNum];
             var random = new Random();
             for (var row = 0; row < rowNum; ++row)
