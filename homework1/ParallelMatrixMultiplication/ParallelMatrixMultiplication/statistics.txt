@@ -1,0 +1,114 @@
+Max value of an element: 100
+
+Threads: 8
+
+Size: 1
+
+Math expectation:
+parallel:  113 ms
+sequential:  0 ms
+
+Standard deviation:
+parallel:  16,92 ms
+sequential:  0 ms
+
+Size: 2
+
+Math expectation:
+parallel:  101 ms
+sequential:  0 ms
+
+Standard deviation:
+parallel:  25,75 ms
+sequential:  0 ms
+
+Size: 4
+
+Math expectation:
+parallel:  88 ms
+sequential:  0 ms
+
+Standard deviation:
+parallel:  23,57 ms
+sequential:  0 ms
+
+Size: 8
+
+Math expectation:
+parallel:  102 ms
+sequential:  0 ms
+
+Standard deviation:
+parallel:  23,89 ms
+sequential:  0 ms
+
+Size: 16
+
+Math expectation:
+parallel:  87 ms
+sequential:  0 ms
+
+Standard deviation:
+parallel:  24,2 ms
+sequential:  0 ms
+
+Size: 32
+
+Math expectation:
+parallel:  73 ms
+sequential:  0 ms
+
+Standard deviation:
+parallel:  26,47 ms
+sequential:  0 ms
+
+Size: 64
+
+Math expectation:
+parallel:  68 ms
+sequential:  2 ms
+
+Standard deviation:
+parallel:  22,45 ms
+sequential:  0,45 ms
+
+Size: 128
+
+Math expectation:
+parallel:  88 ms
+sequential:  17 ms
+
+Standard deviation:
+parallel:  24 ms
+sequential:  1,97 ms
+
+Size: 256
+
+Math expectation:
+parallel:  137 ms
+sequential:  138 ms
+
+Standard deviation:
+parallel:  23,52 ms
+sequential:  6,17 ms
+
+Size: 512
+
+Math expectation:
+parallel:  529 ms
+sequential:  1326 ms
+
+Standard deviation:
+parallel:  24,12 ms
+sequential:  16,02 ms
+
+Size: 1024
+
+Math expectation:
+parallel:  5121 ms
+sequential:  15243 ms
+
+Standard deviation:
+parallel:  1283,5 ms
+sequential:  4493,31 ms
+
