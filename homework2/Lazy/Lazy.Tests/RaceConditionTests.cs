@@ -6,9 +6,9 @@ using System.Threading;
 
 namespace Lazy.Tests
 {
-    public class MultipleThreadsLazyTests
+    public class RaceConditionTests
     {
-        private static readonly int threadsNum = Environment.ProcessorCount;
+        private static readonly int ThreadsNum = Environment.ProcessorCount;
 
         [Test]
         public void TestIntLazyInitializationOccursOnce()
@@ -20,9 +20,9 @@ namespace Lazy.Tests
                 return called;
             });
 
-            var threads = new Thread[threadsNum];
-            var lazyValues = new int[threadsNum];
-            for (var i = 0; i < threadsNum; ++i)
+            var threads = new Thread[ThreadsNum];
+            var lazyValues = new int[ThreadsNum];
+            for (var i = 0; i < ThreadsNum; ++i)
             {
                 var localI = i;
                 threads[i] = new Thread(() => lazyValues[localI] = lazy.Get());
@@ -39,13 +39,13 @@ namespace Lazy.Tests
             }
 
             Assert.AreEqual(1, called);
-            CollectionAssert.AreEqual(Enumerable.Repeat(1, threadsNum).ToArray(), lazyValues);
+            CollectionAssert.AreEqual(Enumerable.Repeat(1, ThreadsNum).ToArray(), lazyValues);
         }
 
         [Test]
         public void TestConcurrentStackLazyInitializationOccursOnce()
         {
-            var stack = new ConcurrentStack<int>();            
+            var stack = new ConcurrentStack<int>();
             var called = 0;
             var lazy = LazyFactory.CreateMultipleThreadsLazy(() =>
             {
@@ -54,9 +54,9 @@ namespace Lazy.Tests
                 return stack;
             });
 
-            var threads = new Thread[threadsNum];
-            var lazyValues = new ConcurrentStack<int>[threadsNum];
-            for (var i = 0; i < threadsNum; ++i)
+            var threads = new Thread[ThreadsNum];
+            var lazyValues = new ConcurrentStack<int>[ThreadsNum];
+            for (var i = 0; i < ThreadsNum; ++i)
             {
                 var localI = i;
                 threads[i] = new Thread(() => lazyValues[localI] = lazy.Get());
@@ -81,7 +81,7 @@ namespace Lazy.Tests
 
         [Test]
         public void TestLazyLazyInitializationOccursOnce()
-        {            
+        {
             var called = 0;
             var random = new Random();
             var lazy = LazyFactory.CreateMultipleThreadsLazy(() =>
@@ -94,9 +94,9 @@ namespace Lazy.Tests
                 });
             });
 
-            var threads = new Thread[threadsNum];
-            var lazyValues = new int[threadsNum];
-            for (var i = 0; i < threadsNum; ++i)
+            var threads = new Thread[ThreadsNum];
+            var lazyValues = new int[ThreadsNum];
+            for (var i = 0; i < ThreadsNum; ++i)
             {
                 var localI = i;
                 threads[i] = new Thread(() => lazyValues[localI] = lazy.Get().Get());
@@ -114,7 +114,7 @@ namespace Lazy.Tests
 
             Assert.AreEqual(2, called);
             var expected = lazyValues[0];
-            CollectionAssert.AreEqual(Enumerable.Repeat(expected, threadsNum).ToArray(), lazyValues);
+            CollectionAssert.AreEqual(Enumerable.Repeat(expected, ThreadsNum).ToArray(), lazyValues);
         }
     }
 }

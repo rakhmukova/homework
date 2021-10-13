@@ -19,9 +19,8 @@ namespace Lazy
         /// <param name="supplier">An initialization function that is used 
         /// when a lazy initialization occurs</param>
         internal MultipleThreadsLazy(Func<T> supplier)
-        {
-            this.supplier = supplier ?? throw new ArgumentNullException(nameof(supplier));
-        }
+            => this.supplier = supplier
+            ?? throw new ArgumentNullException(nameof(supplier));
 
         /// <summary>
         /// Returns the lazily initialized value of the current MultipleThreadsLazy<T> instance
