@@ -80,7 +80,7 @@ namespace MyThreadPool
         {
             var eventualFunction = new Func<TNewResult>(() => function(this.Result));
             var newTask = new MyTask<TNewResult>(eventualFunction, this.threadPool, this.token);
-            var action = new Action(() => newTask.Execute());
+            var action = new Action(() => newTask.Run());
             lock (lockObject)
             {
                 if (IsCompleted)
@@ -99,30 +99,27 @@ namespace MyThreadPool
         /// <summary>
         /// Calculates the value of opearation.
         /// </summary>
-        public void Execute()
+        public void Run()
         {
+            try
+            {
+                result = function();
+            }
+            catch (Exception innerException)
+            {
+                Exception = new AggregateException(innerException);
+            }
+
             lock (lockObject)
             {
-                try
+                function = null;
+                IsCompleted = true;
+                resultIsAvailable.Set();
+                while (tasksToContinueWith.TryDequeue(out Action action))
                 {
-                    result = function();
-                }
-                catch (Exception innerException)
-                {
-                    Exception = new AggregateException(innerException);
-                }
-                finally
-                {
-                    function = null;
-                    IsCompleted = true;
-                    resultIsAvailable.Set();
-                    while (tasksToContinueWith.TryDequeue(out Action action))
+                    if (!threadPool.TryEnqueueAction(action))
                     {
-                        if (!threadPool.TryEnqueueAction(action))
-                        {
-                            tasksToContinueWith.Clear();
-                            break;
-                        }
+                        tasksToContinueWith.Clear();
                     }
                 }
             }

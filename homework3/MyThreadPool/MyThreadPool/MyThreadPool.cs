@@ -45,22 +45,6 @@ namespace MyThreadPool
         /// </summary>
         public int ThreadsNum => threads.Length;
 
-        private void ProcessTasks()
-        {
-            while (true)
-            {
-                try
-                {
-                    var action = waitingTasks.Take(token);
-                    action.Invoke();
-                }
-                catch (OperationCanceledException)
-                {
-                    return;
-                }
-            }
-        }
-
         /// <summary>
         /// Add an action to the queue of operations returns true,
         /// if it is impossible, returns false.
@@ -89,7 +73,7 @@ namespace MyThreadPool
             if (!token.IsCancellationRequested)
             {
                 var myTask = new MyTask<TResult>(function, this, this.token);
-                if (TryEnqueueAction(() => myTask.Execute()))
+                if (TryEnqueueAction(() => myTask.Run()))
                 {
                     return myTask;
                 }
@@ -109,7 +93,25 @@ namespace MyThreadPool
                 waitingTasks.CompleteAdding();
             }
 
-            while (threads.Any(thread => thread.IsAlive));
+            while (threads.Any(thread => thread.IsAlive))
+            {
+            }
+        }
+
+        private void ProcessTasks()
+        {
+            while (true)
+            {
+                try
+                {
+                    var action = waitingTasks.Take(token);
+                    action.Invoke();
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+            }
         }
     }
 }

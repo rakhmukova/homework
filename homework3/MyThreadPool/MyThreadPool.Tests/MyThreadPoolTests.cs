@@ -21,7 +21,10 @@ namespace MyThreadPool.Tests
                 tasks[i] = pool.Submit(() =>
                 {
                     Interlocked.Increment(ref actualThreadsNum);
-                    while (actualThreadsNum != expectedThreadsNum);
+                    while (actualThreadsNum != expectedThreadsNum)
+                    {
+                    }
+
                     return actualThreadsNum;
                 });
             }
@@ -89,33 +92,39 @@ namespace MyThreadPool.Tests
                 results);
         }
 
-        //deadlock
-        //[Test]
-        //public void TestTryRunTaskAfterShutDownAndCheckIfExceptionIsThrown()
-        //{
-        //    var pool = new MyThreadPool(this.threadsNum);
-        //    var couldBeExecuted = new AutoResetEvent(false);
-        //    var function = new Func<int>(() =>
-        //    {
-        //        couldBeExecuted.WaitOne();
-        //        return 0;
-        //    });
-        //    var firstTask = pool.Submit(function);
-        //    var nextTask = firstTask.ContinueWith((value) => -value);
-        //    pool.ShutDown();
-        //    couldBeExecuted.Set();
-        //    try
-        //    {
-        //        _ = nextTask.Result;
-        //    }
-        //    catch (AggregateException exception)
-        //    {
-        //        var innerExceptions = exception.InnerExceptions;
-        //        Assert.AreEqual(1, innerExceptions.Count);
-        //        Assert.AreEqual(
-        //            typeof(InvalidOperationException),
-        //            innerExceptions[0].GetType());
-        //    }
-        //}
+        [Test]
+        public void TestTryRunTaskAfterShutDownAndCheckIfExceptionIsThrown()
+        {
+            var pool = new MyThreadPool(this.threadsNum);
+            var firstTask = pool.Submit(() => 0);
+            var thread = new Thread(() =>
+            {
+                pool.ShutDown();
+            });
+            thread.Start();
+            thread.Join();
+            var nextTask = firstTask.ContinueWith((value) => -value);
+
+            try
+            {
+               _ = nextTask.Result;
+               Assert.Fail("Exception should be thrown.");
+            }
+            catch (AggregateException exception)
+            {
+                var innerExceptions = exception.InnerExceptions;
+                Assert.AreEqual(1, innerExceptions.Count);
+                Assert.AreEqual(
+                    typeof(InvalidOperationException),
+                    innerExceptions[0].GetType());
+                Assert.AreEqual(
+                    "ThreadPool stopped working.",
+                    innerExceptions[0].Message);
+            }
+            catch (Exception)
+            {
+                Assert.Fail($"The type of exception should be {nameof(AggregateException)}");
+            }
+        }
     }
 }
