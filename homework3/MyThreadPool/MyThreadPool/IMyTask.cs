@@ -3,7 +3,7 @@
 namespace MyThreadPool
 {
     /// <summary>
-    /// An interface that represents a single opertion which returns a value.
+    /// An interface that represents a single operation which returns a value.
     /// </summary>
     /// <typeparam name="TResult">A type of returned value.</typeparam>
     public interface IMyTask<out TResult>

@@ -16,15 +16,18 @@ namespace MyThreadPool.Tests
             var pool = new MyThreadPool(expectedThreadsNum);
             var tasks = new IMyTask<int>[expectedThreadsNum];
             var actualThreadsNum = 0;
+            var expectedNumberIsReached = new ManualResetEvent(false);
             for (var i = 0; i < expectedThreadsNum; ++i)
             {
                 tasks[i] = pool.Submit(() =>
                 {
                     Interlocked.Increment(ref actualThreadsNum);
-                    while (actualThreadsNum != expectedThreadsNum)
+                    if (actualThreadsNum == expectedThreadsNum)
                     {
+                        expectedNumberIsReached.Set();
                     }
 
+                    expectedNumberIsReached.WaitOne();
                     return actualThreadsNum;
                 });
             }
@@ -41,8 +44,8 @@ namespace MyThreadPool.Tests
         public void TestCreateChainOfContinueWithAndCheckResult()
         {
             var pool = new MyThreadPool(this.threadsNum);
-            var task = pool.Submit(() => 4 + 66).ContinueWith((a) => a * a).
-                ContinueWith((b) => b.ToString());
+            var task = pool.Submit(() => 4 + 66).ContinueWith(a => a * a).
+                ContinueWith(b => b.ToString());
             Assert.AreEqual("4900", task.Result);
         }
 
@@ -86,9 +89,9 @@ namespace MyThreadPool.Tests
             var pool = new MyThreadPool(this.threadsNum);
             var firstTask = pool.Submit(() => 2);
             var results = Enumerable.Range(1, 10).
-                Select((el) => firstTask.ContinueWith((a) => a * el).Result);
+                Select((el) => firstTask.ContinueWith(a => a * el).Result);
             CollectionAssert.AreEqual(
-                Enumerable.Range(1, 10).Select((a) => 2 * a),
+                Enumerable.Range(1, 10).Select(a => 2 * a),
                 results);
         }
 
