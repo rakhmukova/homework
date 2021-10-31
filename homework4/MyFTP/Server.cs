@@ -12,9 +12,10 @@ namespace MyFTP
     /// </summary>
     public class Server
     {
-        private readonly TcpListener listener;
-        private readonly CancellationTokenSource source = new ();
+        private readonly IPEndPoint endPoint;
         private readonly AutoResetEvent taskStopped = new (false);
+        private TcpListener listener;
+        private CancellationTokenSource source;
         private int numberOfTasks = 0;
 
         /// <summary>
@@ -22,14 +23,8 @@ namespace MyFTP
         /// </summary>
         /// <param name="endPoint">Server address.</param>
         public Server(IPEndPoint endPoint)
-        {
-            if (endPoint == null)
-            {
-                throw new ArgumentNullException(nameof(endPoint));
-            }
-
-            this.listener = new (endPoint);
-        }
+            => this.endPoint = endPoint
+            ?? throw new ArgumentNullException(nameof(endPoint));
 
         /// <summary>
         /// Stops server's work.
@@ -37,10 +32,12 @@ namespace MyFTP
         public void Stop()
         {
             source.Cancel();
-            while (Volatile.Read(ref numberOfTasks) != 0)
+            while (numberOfTasks != 0)
             {
                 taskStopped.WaitOne();
             }
+
+            listener.Stop();
         }
 
         /// <summary>
@@ -48,14 +45,38 @@ namespace MyFTP
         /// </summary>
         public async Task Run()
         {
+            source = new ();
+            listener = new (endPoint);
             listener.Start();
             while (!source.Token.IsCancellationRequested)
             {
-                using var client = listener.AcceptTcpClient();
+                using var client = await listener.AcceptTcpClientAsync();
                 await Task.Run(() => HandleRequest(client));
             }
+        }
 
-            listener.Stop();
+        private async Task NotifyClientOfProtocolBreaking(StreamWriter streamWriter)
+        {
+            await streamWriter.WriteLineAsync("Protocol is broken");
+            await streamWriter.FlushAsync();
+        }
+
+        private (int, string) ParseRequest(StreamReader streamReader)
+        {
+            int type = streamReader.Read();
+            if (type != '1' && type != '2')
+            {
+                return (0, string.Empty);
+            }
+
+            type = type == '1' ? 1 : 2;
+            int nextChar = streamReader.Read();
+            if (nextChar != ' ')
+            {
+                return (0, string.Empty);
+            }
+
+            return (type, streamReader.ReadLine());
         }
 
         private async Task HandleRequest(TcpClient client)
@@ -63,26 +84,26 @@ namespace MyFTP
             Interlocked.Increment(ref numberOfTasks);
             try
             {
-                var stream = client.GetStream();
-                using var streanReader = new StreamReader(stream);
+                using var stream = client.GetStream();
+                using var streamReader = new StreamReader(stream);
                 using var streamWriter = new StreamWriter(stream);
-                var requestData = streanReader.ReadToEnd();
-                var request = requestData.Split(' ');
-                switch (request[0])
+                var (requestType, path) = ParseRequest(streamReader);
+                switch (requestType)
                 {
-                    case "1":
-                        await ListFilesAsync(request[1], streamWriter);
+                    case 1:
+                        await ListFilesAsync(path, streamWriter);
                         break;
-                    case "2":
-                        await DownloadFileAsync(request[1], streamWriter);
+                    case 2:
+                        await DownloadFileAsync(path, streamWriter);
                         break;
                     default:
-                        throw new InvalidOperationException("Invalid request type");
+                        await NotifyClientOfProtocolBreaking(streamWriter);
+                        break;
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(exception.Message);
             }
 
             Interlocked.Decrement(ref numberOfTasks);
@@ -118,11 +139,13 @@ namespace MyFTP
             var file = new FileInfo(path);
             if (!file.Exists)
             {
-                await streamWriter.WriteAsync("-1");
+                await streamWriter.WriteLineAsync("-1");
+                await streamWriter.FlushAsync();
                 return;
             }
 
-            await streamWriter.WriteAsync($"{file.Length}");
+            await streamWriter.WriteLineAsync($"{file.Length}");
+            await streamWriter.FlushAsync();
             using var fileStream = File.OpenRead(path);
             await fileStream.CopyToAsync(streamWriter.BaseStream);
         }
