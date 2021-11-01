@@ -22,36 +22,19 @@ namespace MyFTP.Tests
             client = new(endPoint);
         }
 
-        private static IEnumerable<(string, List<(string, bool)>)> ListFilesRequests()
-        {
-            yield return ("../../../..",
-                new List<(string, bool)>() 
-                {
-                    (".vs", true),
-                    ("MyFTP", true),
-                    ("MyFTP.Tests", true),
-                    (".editorconfig", false),
-                    ("MyFTP.sln", false)
-                });
-
-            yield return ("../../../../MyFTP",
-                new List<(string, bool)>()
-                {
-                    ("bin", true),
-                    ("obj", true),
-                    ("Client.cs", false),
-                    ("MyFTP.csproj", false),
-                    ("Program.cs", false),
-                    ("Server.cs", false)
-                });
-        }
-
-        [TestCaseSource(nameof(ListFilesRequests))]
-        public async Task TestCallListAllFiles((string path, List<(string, bool)> expectedResponse) data)
+        [Test]
+        public async Task TestCallListAllFiles()
         {
             server.Run();
-            var response = await client.ListFilesAsync(data.path);
-            CollectionAssert.AreEqual(data.expectedResponse, response);
+            var path = "../../../../MyFTP.Tests/Dir";
+            var expectedResponse = new List<(string, bool)>
+            {
+                ("Subdir1", true),
+                ("Subdir2", true),
+                ("Example.txt", false)
+            };
+            var response = await client.ListFilesAsync(path);
+            CollectionAssert.AreEqual(expectedResponse, response);
             server.Stop();
         }
 
@@ -59,7 +42,7 @@ namespace MyFTP.Tests
         public async Task TestCallDownloadFile()
         {
             server.Run();
-            var path = "../../../../MyFTP.Tests/Example.Txt";
+            var path = "../../../../MyFTP.Tests/Dir/Example.Txt";
             var (size, content) = await client.DownloadFileAsync(path);
             Assert.AreEqual(11, size);
             Assert.AreEqual("???sometext", Encoding.ASCII.GetString(content));
