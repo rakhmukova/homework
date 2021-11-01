@@ -17,9 +17,4 @@
     <ProjectReference Include="..\MyFTP\MyFTP.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dir\Subdir2\" />
-    <Folder Include="Dir\Subdir1\" />
-  </ItemGroup>
-
 </Project>
