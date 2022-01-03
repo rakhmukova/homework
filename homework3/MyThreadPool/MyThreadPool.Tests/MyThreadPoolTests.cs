@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
@@ -93,6 +94,31 @@ namespace MyThreadPool.Tests
             CollectionAssert.AreEqual(
                 Enumerable.Range(1, 10).Select(a => 2 * a),
                 results);
+        }
+
+        [Test]
+        public void TestCallThreadPoolMethodsFromMultipleThreads()
+        {
+            var pool = new MyThreadPool(this.threadsNum);
+            int num = 100;
+            var threads = new Thread[num];
+            var tasks = new List<IMyTask<int>>();
+            for (var i = 0; i < num; ++i)
+            {
+                var localI = i;
+                threads[localI] = new (()
+                    => tasks.Add(pool.Submit(() => localI * localI)));
+                threads[localI].Start();
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.Join();
+            }
+
+            CollectionAssert.AreEqual(
+                Enumerable.Range(0, num).Select(a => a * a).ToList(),
+                tasks.Select(t => t.Result).ToList());
         }
 
         [Test]

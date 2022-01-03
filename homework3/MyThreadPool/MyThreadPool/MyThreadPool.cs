@@ -44,12 +44,7 @@ namespace MyThreadPool
         /// </summary>
         public int ThreadsNum => threads.Length;
 
-        /// <summary>
-        /// Add an action to the queue of operations returns true,
-        /// if it is impossible, returns false.
-        /// </summary>
-        /// <param name="action">An operation to add.</param>
-        public bool TryEnqueueAction(Action action)
+        private bool TryEnqueueAction(Action action)
         {
             lock (lockObject)
             {
